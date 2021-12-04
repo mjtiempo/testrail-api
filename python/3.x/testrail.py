@@ -98,6 +98,35 @@ class APIClient:
                     return {}
 
 
+    def get_projects(self):
+        return self.send_get('get_projects')
+
+    def get_project(self, project_id: int) -> dict:
+        uri = 'get_project/' + str(project_id)
+        return self.send_get(uri)
+
+    def delete_project(self, project_id: int) -> dict:
+        uri = 'delete_project/' + str(project_id)
+        return self.send_post(uri, {})
+
+    def add_project(self, name: str, announcement: str="", show_announcement: bool=False, suite_mode: int=1) -> dict:
+        data = {
+            "name": name, 
+            "announcement": announcement, 
+            "show_announcement": show_announcement, 
+            "suite_mode": suite_mode
+        }
+        return self.send_post('add_project/', data)
+
+    def update_project(self, project_id: int, name: str='', announcement: str="", show_announcement: bool=False, suite_mode: int=1) -> dict:
+        data = {
+            "name": name, 
+            "announcement": announcement, 
+            "show_announcement": show_announcement, 
+            "suite_mode": suite_mode
+        }
+        uri = 'update_project/' + str(project_id)
+        return self.send_post(uri, data)
 
 class APIError(Exception):
     pass
